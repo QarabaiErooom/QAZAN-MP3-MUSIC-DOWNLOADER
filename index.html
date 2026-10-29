@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QAZAN MP3 MUSIC DOWNLOADER — Telegram bot + real-time dashboard</title>
+<meta name="description" content="Fully automated Telegram bot + web dashboard that downloads YouTube audio as 128 kbps MP3, embeds custom cover art and artist metadata via ffmpeg, and manages everything in real time.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23FF6B2B'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='20' font-weight='700' text-anchor='middle' fill='%23000'%3EQ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+<script src="./app.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="QAZAN — back to top">
+      <span class="brand-mark" aria-hidden="true">Q</span>
+      <span class="brand-name">QAZAN</span>
+      <span class="brand-sub">MP3</span>
+    </a>
+
+    <nav class="nav-links" id="nav-links" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#installation">Install</a>
+      <a href="#usage">Usage</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#license">License</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="icon-link" href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER" target="_blank" rel="noopener" aria-label="GitHub repository">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+      </a>
+      <a class="btn btn-primary btn-sm" href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER/releases" target="_blank" rel="noopener">Download</a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow"><span class="path">~/qazan-mp3-downloader</span> <span class="prompt">$</span> python main.py</div>
+
+      <img class="typing-svg"
+           src="https://readme-typing-svg.demolab.com?font=Syne&amp;weight=700&amp;size=32&amp;duration=3000&amp;pause=800&amp;color=FF6B2B&amp;background=00000000&amp;center=true&amp;vCenter=true&amp;width=900&amp;lines=QAZAN+MP3+MUSIC+DOWNLOADER;YouTube+%E2%86%92+128kbps+MP3+%E2%86%92+Cover+Art;4+Parallel+Workers+%7C+Real-Time+Dashboard;Telegram+Bot+%2B+FastAPI+%2B+yt-dlp+%2B+ffmpeg"
+           alt="QAZAN MP3 MUSIC DOWNLOADER — YouTube to 128 kbps MP3, 4 parallel workers, real-time dashboard">
+
+      <p class="hero-tagline">Fully automated Telegram bot + web dashboard that downloads YouTube audio as 128 kbps MP3, embeds custom cover art and artist metadata via ffmpeg, and manages everything in real time.</p>
+
+      <div class="hero-badges">
+        <img src="https://img.shields.io/badge/License-OSL--3.0-FF6B2B?style=flat-square&amp;labelColor=1A1A1A" alt="License OSL-3.0">
+        <img src="https://img.shields.io/badge/Python-3.12-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=python&amp;logoColor=FF6B2B" alt="Python 3.12">
+        <img src="https://img.shields.io/badge/aiogram-3-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=telegram&amp;logoColor=FF6B2B" alt="aiogram 3">
+        <img src="https://img.shields.io/badge/FastAPI-0.115-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=fastapi&amp;logoColor=FF6B2B" alt="FastAPI">
+        <img src="https://img.shields.io/badge/yt--dlp-latest-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=youtube&amp;logoColor=FF6B2B" alt="yt-dlp">
+        <img src="https://img.shields.io/badge/FFmpeg-required-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=ffmpeg&amp;logoColor=FF6B2B" alt="FFmpeg">
+        <img src="https://img.shields.io/badge/SQLite-3-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=sqlite&amp;logoColor=FF6B2B" alt="SQLite">
+        <img src="https://img.shields.io/badge/Deno-runtime-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=deno&amp;logoColor=FF6B2B" alt="Deno">
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-secondary" href="#installation">Read the Docs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">01 / Features</span>
+        <h2>Twelve capabilities, four layers</h2>
+        <p class="section-sub">From Telegram intake to a tagged MP3 on disk — every stage is automated, observable, and crash-tolerant.</p>
+      </div>
+
+      <div class="feature-group reveal">
+        <h3 class="feature-group-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          Telegram Bot
+        </h3>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <h4>Batch URL Extraction</h4>
+            <p>Any message can carry multiple YouTube, Shorts, or music.youtube.com links. Every unique URL is extracted, deduplicated, and queued in a single pass.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </div>
+            <h4>Per-URL Failure Alerts</h4>
+            <p>A link that exhausts all retries triggers an immediate standalone Telegram warning with a short error, so no failure passes silently.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="feature-group reveal">
+        <h3 class="feature-group-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+          Download Engine
+        </h3>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+            </div>
+            <h4>4 Parallel Async Workers</h4>
+            <p>An asyncio.Queue is drained by four independent coroutines, each running yt-dlp and ffmpeg off the event loop.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            </div>
+            <h4>Skip-Existing Deduplication</h4>
+            <p>Downloads are pre-checked against the output directory and the tasks table. Duplicates are marked skipped, never re-fetched.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>
+            </div>
+            <h4>Optional cookies.txt</h4>
+            <p>If cookies.txt sits next to main.py it is passed transparently to yt-dlp. If it is absent, the pipeline proceeds without authentication.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <h4>Single-Command Launch</h4>
+            <p>python main.py boots the Telegram bot, FastAPI server, and worker pool together through asyncio.gather — one process, one shutdown path.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="feature-group reveal">
+        <h3 class="feature-group-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Audio Processing
+        </h3>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <h4>Cover Art Embedding</h4>
+            <p>ffmpeg maps art.png as Cover (Front) with id3v2_version 3, so every MP3 ships with your custom artwork.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 18v-6l6-1v6"/><circle cx="7.5" cy="18" r="1.5"/><circle cx="13.5" cy="17" r="1.5"/></svg>
+            </div>
+            <h4>Deterministic Output</h4>
+            <p>Finished files are written as {title}-{artist}.mp3 into ~/Downloads/Music, sanitized for the host filesystem.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="feature-group reveal">
+        <h3 class="feature-group-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+          Data &amp; Reliability
+        </h3>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h4>Real-Time Dashboard</h4>
+            <p>A local FastAPI dashboard streams worker state, queue depth, daily stats, and logs over WebSocket every second.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <h4>Six-View SPA</h4>
+            <p>Dashboard, Queue, History, Settings, Terminal, and Logs — client-side routed with zero page reloads.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+            </div>
+            <h4>SQLite Persistence</h4>
+            <p>Queue, history, editable settings, and daily counters survive restarts in a single qazan.db file.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+            </div>
+            <h4>Crash-Tolerant Queue</h4>
+            <p>Interrupted downloading or processing tasks are reset to pending and re-enqueued automatically on boot.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="screenshots">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">02 / Screenshots</span>
+        <h2>Two views of the same system</h2>
+        <p class="section-sub">The local dashboard and the colorized stdout stream — both fed by the same event loop.</p>
+      </div>
+      <div class="shots reveal">
+        <figure class="shot">
+          <img src="./screenshots/website.png" alt="QAZAN web dashboard: dark sidebar, stat cards, live worker strip, queue table, and terminal panel" loading="lazy">
+          <figcaption><span class="mono-accent">127.0.0.1:8000</span> — stat cards, worker strip, live queue, and terminal over WebSocket.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="./screenshots/terminal.png" alt="QAZAN terminal output: colorized Kazakh logs for startup, worker pool, queue acceptance, and download progress" loading="lazy">
+          <figcaption><span class="mono-accent">python main.py</span> — human-readable Kazakh logs on stdout, full detail mirrored to system.log.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="installation">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">03 / Installation</span>
+        <h2>Seven steps from clone to pipeline</h2>
+        <p class="section-sub">Windows and Linux/macOS commands are provided where they differ. No build step, no containers, no cloud accounts.</p>
+      </div>
+
+      <div class="panel reveal">
+        <div class="panel-head"><span>Prerequisites</span><span class="mono-accent">required</span></div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr><th>Requirement</th><th>Version</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Python</code></td><td>3.11+ (3.12 recommended)</td><td>Verify with <code>python --version</code>.</td></tr>
+              <tr><td><code>FFmpeg</code></td><td>any recent build</td><td>Must be resolvable on <code>PATH</code>.</td></tr>
+              <tr><td><code>Deno</code></td><td>latest</td><td>Required by <code>yt-dlp-ejs</code> for YouTube JS challenges.</td></tr>
+              <tr><td><code>Git</code></td><td>any</td><td>For cloning the repository.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <div class="step-marker">01</div>
+          <div class="step-body">
+            <h3>Clone the repository</h3>
+            <p>Fetch the project and move into its root directory.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>git clone https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER.git
+cd qazan-mp3-downloader</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">02</div>
+          <div class="step-body">
+            <h3>Create and activate a virtual environment</h3>
+            <p>Keep the project dependencies isolated from the system Python.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>python -m venv .venv
+.venv\Scripts\activate</code></pre>
+            </div>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>python3 -m venv .venv
+source .venv/bin/activate</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">03</div>
+          <div class="step-body">
+            <h3>Install Python dependencies</h3>
+            <p>Upgrade pip, then install the pinned requirements.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>pip install --upgrade pip
+pip install -r requirements.txt</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">04</div>
+          <div class="step-body">
+            <h3>Install Deno</h3>
+            <p><code>yt-dlp-ejs</code> requires Deno at runtime. Install it once and let <code>yt-dlp</code> pick it up from <code>PATH</code>. Verify with <code>deno --version</code>.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>irm https://deno.land/install.ps1 | iex</code></pre>
+            </div>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>curl -fsSL https://deno.land/install.sh | sh</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">05</div>
+          <div class="step-body">
+            <h3>Add your cover art</h3>
+            <p>Place a square PNG at the configured path. 500×500 or larger is recommended. If the file is missing, the pipeline still runs — you just get an MP3 without embedded art.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>C:\Users\Erom\Downloads\QAZAN MUSIC\art.png</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">06</div>
+          <div class="step-body">
+            <h3>Configure config.py</h3>
+            <p>Edit the four values you actually need. Everything else — bitrate, worker count, artist, retries — is editable later from Dashboard → Settings.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>BOT_TOKEN    = "123456789:AAExampleTokenFromBotFather"   # from @BotFather
+ART_PATH     = r"C:\Users\Erom\Downloads\QAZAN MUSIC\art.png"
+OUTPUT_DIR   = r"C:\Users\Erom\Downloads\Music"
+COOKIES_PATH = "cookies.txt"                              # optional</code></pre>
+            </div>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-marker">07</div>
+          <div class="step-body">
+            <h3>Run</h3>
+            <p>One command boots the Telegram bot, the FastAPI server, and the four-worker queue concurrently. On Windows you can also double-click <code>start.bat</code>.</p>
+            <div class="code-block">
+              <button class="copy-btn" type="button">Copy</button>
+<pre><code>python main.py</code></pre>
+            </div>
+            <p class="note">The dashboard becomes available at <code>http://127.0.0.1:8000</code> immediately. The server binds only to localhost.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="usage">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">04 / Usage</span>
+        <h2>Send links, watch the pipeline</h2>
+        <p class="section-sub">The Telegram bot is the intake; the browser dashboard is the observability layer. Nothing else is required.</p>
+      </div>
+
+      <div class="usage-block reveal">
+        <h3 class="subhead"><span class="idx">A</span> Telegram Bot</h3>
+        <ol class="numbered">
+          <li>Send <code>/start</code> to the bot. You will receive the intro message in Kazakh.</li>
+          <li>Send any message containing one or more YouTube URLs — youtu.be, youtube.com/watch, youtube.com/shorts, and music.youtube.com are all supported. You can mix them in one message.</li>
+          <li>The bot extracts every unique link, enqueues each as an independent task, and replies once with the queue acknowledgement.</li>
+          <li>When every task in that batch reaches a terminal state, one consolidated summary arrives with totals, duration, and average throughput.</li>
+          <li>Any URL that exhausts its retries triggers an immediate standalone warning, so you never wait for the batch to learn that one link failed.</li>
+        </ol>
+
+        <div class="term">
+          <div class="term-head">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="term-title">telegram · batch output</span>
+          </div>
+          <div class="term-body">
+            <span class="term-line term-accent">🎵 Кезекке {N} өлең тіркелді. Қазір {active}/{worker_count} жүктелуде. Барлығы біткенде толық статистика жіберемін.</span>
+            <span class="term-line">&nbsp;</span>
+            <span class="term-line term-ok">✅ Жүктеу аяқталды!</span>
+            <span class="term-line term-text">Жалпы: {total} | Сәтті: {success} | Сәтсіз: {failed} | Өткізілді: {skipped}</span>
+            <span class="term-line term-muted">Уақыт: {duration}</span>
+            <span class="term-line term-muted">Орташа жылдамдық: {speed}</span>
+            <span class="term-line">&nbsp;</span>
+            <span class="term-line term-warn">⚠️ Бұл сілтеме жүктелмеді: {url}</span>
+            <span class="term-line term-muted">Себебі: {short_error}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="usage-block reveal">
+        <h3 class="subhead"><span class="idx">B</span> Web Dashboard</h3>
+        <p class="section-sub">Open <code>http://127.0.0.1:8000</code> in any modern browser. The server binds only to <code>127.0.0.1</code> — it is not reachable from the network and does not require authentication.</p>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Page</th><th>What it shows</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Dashboard</strong></td><td>Stat cards (Total, In Queue, Active Workers, Failed Today, Avg Speed), a live worker strip with progress bars, the 10 most recent tasks, and a 7-day bar chart.</td></tr>
+                <tr><td><strong>Queue</strong></td><td>Every pending, downloading, or processing task with its assigned worker, attempt count, and creation time.</td></tr>
+                <tr><td><strong>History</strong></td><td>Completed, failed, and skipped tasks, filterable by status.</td></tr>
+                <tr><td><strong>Settings</strong></td><td>Every DEFAULT_SETTINGS entry, editable inline with a confirmation modal before the value is written to SQLite.</td></tr>
+                <tr><td><strong>Terminal</strong></td><td>A live monospaced stream of the last 120 human-readable Kazakh log lines, color-coded by status.</td></tr>
+                <tr><td><strong>Logs</strong></td><td>The last 200 lines of system.log, parsed into timestamp / level / module / message, and colored by severity.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="configuration">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">05 / Configuration</span>
+        <h2>Everything is a setting</h2>
+        <p class="section-sub">All values are seeded into the SQLite settings table on first run and can be edited live from Dashboard → Settings. Workers reload dynamically without a restart.</p>
+      </div>
+
+      <details class="details-block reveal">
+        <summary class="details-summary">
+          <span>Full settings reference</span>
+          <svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="details-body">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>bitrate</code></td><td>string</td><td><code>128k</code></td><td>MP3 bitrate passed to FFmpegExtractAudio.</td></tr>
+                <tr><td><code>format</code></td><td>string</td><td><code>mp3</code></td><td>Preferred audio codec.</td></tr>
+                <tr><td><code>worker_count</code></td><td>int</td><td><code>4</code></td><td>Number of persistent worker coroutines.</td></tr>
+                <tr><td><code>max_concurrent</code></td><td>int</td><td><code>4</code></td><td>Upper bound of simultaneously running downloads.</td></tr>
+                <tr><td><code>artist</code></td><td>string</td><td><code>Qarabai Ermahan</code></td><td>Artist tag written into every MP3.</td></tr>
+                <tr><td><code>art_path</code></td><td>string</td><td><code>C:\Users\Erom\Downloads\QAZAN MUSIC\art.png</code></td><td>Cover art embedded via ffmpeg.</td></tr>
+                <tr><td><code>embed_cover</code></td><td>bool</td><td><code>true</code></td><td>Toggle cover embedding.</td></tr>
+                <tr><td><code>output_dir</code></td><td>string</td><td><code>C:\Users\Erom\Downloads\Music</code></td><td>Destination directory for finished files.</td></tr>
+                <tr><td><code>filename_format</code></td><td>string</td><td><code>{title}-{artist}.mp3</code></td><td>Filename template using {title} and {artist}.</td></tr>
+                <tr><td><code>skip_existing</code></td><td>bool</td><td><code>true</code></td><td>Skip URLs whose target file already exists.</td></tr>
+                <tr><td><code>max_retries</code></td><td>int</td><td><code>3</code></td><td>Retry attempts per URL before marking failed.</td></tr>
+                <tr><td><code>retry_delay_sec</code></td><td>int</td><td><code>5</code></td><td>Delay in seconds between retries.</td></tr>
+                <tr><td><code>progress_messages</code></td><td>bool</td><td><code>true</code></td><td>Send the initial queue acknowledgement message.</td></tr>
+                <tr><td><code>send_full_stats</code></td><td>bool</td><td><code>true</code></td><td>Send the final per-batch summary.</td></tr>
+                <tr><td><code>per_file_notification</code></td><td>bool</td><td><code>false</code></td><td>Send a message per finished file (opt-in).</td></tr>
+                <tr><td><code>log_level</code></td><td>string</td><td><code>INFO</code></td><td>Threshold for system.log.</td></tr>
+                <tr><td><code>db_path</code></td><td>string</td><td><code>qazan.db</code></td><td>SQLite database file location.</td></tr>
+                <tr><td><code>auto_cleanup_days</code></td><td>int</td><td><code>30</code></td><td>Purge completed rows older than this at boot.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note"><code>COOKIES_PATH</code> (<code>cookies.txt</code>) is intentionally not a database setting — its presence is checked against the filesystem at runtime, so you can drop it in or remove it without touching the app.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section" id="architecture">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">06 / Architecture</span>
+        <h2>One event loop, four workers</h2>
+        <p class="section-sub">Telegram intake feeds an asyncio queue. Workers run yt-dlp and ffmpeg, persist state to SQLite, and FastAPI streams a snapshot to the browser every second.</p>
+      </div>
+
+      <div class="arch-scroll reveal">
+        <svg class="arch-svg" viewBox="0 0 1200 560" role="img" aria-labelledby="arch-title arch-desc" xmlns="http://www.w3.org/2000/svg">
+          <title id="arch-title">QAZAN pipeline architecture</title>
+          <desc id="arch-desc">A Telegram user sends a message to the aiogram bot, which extracts URLs and pushes them into an asyncio queue. Four workers run yt-dlp and ffmpeg, write state to SQLite, and produce MP3 files in the output directory. FastAPI streams state over WebSocket to the dashboard.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 Z" fill="#888888"/>
+            </marker>
+          </defs>
+          <style>
+            .node{fill:#0A0A0A;stroke:#FF6B2B;stroke-width:1.2}
+            .nlabel{fill:#E5E5E5;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;text-anchor:middle}
+            .nsub{fill:#888888;font-family:'DM Mono',monospace;font-size:10px;text-anchor:middle}
+            .edge{stroke:#888888;stroke-width:1.4;fill:none;marker-end:url(#arrow)}
+            .edge-dash{stroke:#888888;stroke-width:1.2;fill:none;stroke-dasharray:5 5;marker-end:url(#arrow)}
+            .bus{stroke:#888888;stroke-width:1.4;fill:none}
+            .elabel{fill:#888888;font-family:'DM Mono',monospace;font-size:9.5px;text-anchor:middle}
+          </style>
+
+          <rect class="node" x="30" y="50" width="170" height="64" rx="6"/>
+          <text class="nlabel" x="115" y="78">Telegram User</text>
+          <text class="nsub" x="115" y="96">text message</text>
+
+          <rect class="node" x="250" y="50" width="170" height="64" rx="6"/>
+          <text class="nlabel" x="335" y="78">aiogram 3 Bot</text>
+          <text class="nsub" x="335" y="96">dispatcher</text>
+
+          <rect class="node" x="470" y="50" width="170" height="64" rx="6"/>
+          <text class="nlabel" x="555" y="78">URL Extractor</text>
+          <text class="nsub" x="555" y="96">regex + dedupe</text>
+
+          <rect class="node" x="690" y="50" width="170" height="64" rx="6"/>
+          <text class="nlabel" x="775" y="78">asyncio.Queue</text>
+          <text class="nsub" x="775" y="96">pending tasks</text>
+
+          <path class="edge" d="M200 82 H242"/>
+          <path class="edge" d="M420 82 H462"/>
+          <path class="edge" d="M640 82 H682"/>
+          <text class="elabel" x="223" y="72">message</text>
+          <text class="elabel" x="443" y="72">extract</text>
+          <text class="elabel" x="663" y="72">enqueue</text>
+
+          <path class="bus" d="M775 114 V150"/>
+          <path class="bus" d="M475 150 H925"/>
+          <path class="edge" d="M475 150 V182"/>
+          <path class="edge" d="M625 150 V182"/>
+          <path class="edge" d="M775 150 V182"/>
+          <path class="edge" d="M925 150 V182"/>
+          <text class="elabel" x="700" y="143">4 workers</text>
+
+          <rect class="node" x="415" y="190" width="120" height="52" rx="6"/>
+          <text class="nlabel" x="475" y="221">Worker 1</text>
+
+          <rect class="node" x="565" y="190" width="120" height="52" rx="6"/>
+          <text class="nlabel" x="625" y="221">Worker 2</text>
+
+          <rect class="node" x="715" y="190" width="120" height="52" rx="6"/>
+          <text class="nlabel" x="775" y="221">Worker 3</text>
+
+          <rect class="node" x="865" y="190" width="120" height="52" rx="6"/>
+          <text class="nlabel" x="925" y="221">Worker 4</text>
+
+          <path class="bus" d="M475 242 V285"/>
+          <path class="bus" d="M625 242 V285"/>
+          <path class="bus" d="M775 242 V285"/>
+          <path class="bus" d="M925 242 V285"/>
+          <path class="bus" d="M475 285 H925"/>
+          <path class="edge" d="M475 285 V312"/>
+          <text class="elabel" x="700" y="278">worker results</text>
+
+          <rect class="node" x="415" y="320" width="120" height="60" rx="6"/>
+          <text class="nlabel" x="475" y="348">yt-dlp</text>
+          <text class="nsub" x="475" y="366">extract</text>
+
+          <rect class="node" x="565" y="320" width="120" height="60" rx="6"/>
+          <text class="nlabel" x="625" y="348">ffmpeg</text>
+          <text class="nsub" x="625" y="366">encode + tag</text>
+
+          <rect class="node" x="715" y="320" width="190" height="60" rx="6"/>
+          <text class="nlabel" x="810" y="348">OUTPUT_DIR</text>
+          <text class="nsub" x="810" y="366">{title}-{artist}.mp3</text>
+
+          <path class="edge" d="M535 350 H557"/>
+          <path class="edge" d="M685 350 H707"/>
+
+          <rect class="node" x="1010" y="190" width="160" height="60" rx="6"/>
+          <text class="nlabel" x="1090" y="218">SQLite</text>
+          <text class="nsub" x="1090" y="236">qazan.db</text>
+
+          <rect class="node" x="1010" y="320" width="160" height="60" rx="6"/>
+          <text class="nlabel" x="1090" y="348">FastAPI /ws</text>
+          <text class="nsub" x="1090" y="366">1 Hz snapshot</text>
+
+          <rect class="node" x="1010" y="450" width="160" height="60" rx="6"/>
+          <text class="nlabel" x="1090" y="478">Dashboard</text>
+          <text class="nsub" x="1090" y="496">127.0.0.1:8000</text>
+
+          <path class="edge-dash" d="M985 220 H1002"/>
+          <path class="edge-dash" d="M905 350 H1002"/>
+          <path class="edge" d="M1090 250 V312"/>
+          <path class="edge" d="M1090 380 V442"/>
+          <text class="elabel" x="1090" y="290">snapshot</text>
+          <text class="elabel" x="957" y="343">read</text>
+        </svg>
+      </div>
+      <p class="arch-caption">Solid arrows show the download path. Dashed arrows show state reads and writes.</p>
+
+      <details class="details-block reveal">
+        <summary class="details-summary">
+          <span>Module-by-module breakdown</span>
+          <svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="details-body">
+          <ul class="module-list">
+            <li><code>main.py</code><p>Single entry point. Boots logging, initializes the database, restores interrupted tasks, then runs asyncio.gather(bot, web, workers) so all subsystems share one event loop and one shutdown path.</p></li>
+            <li><code>config.py</code><p>Holds every constant (BOT_TOKEN, paths, DEFAULT_SETTINGS), configures the file logger targeting system.log, and exposes human() for colorized Kazakh console lines plus the in-memory log ring buffer.</p></li>
+            <li><code>db.py</code><p>Thin aiosqlite layer with three tables: tasks, settings, stats_daily. Provides enqueue_task, update_task_status, get_queue, get_history, get_dashboard_stats, cleanup_old_tasks, and value casting on read.</p></li>
+            <li><code>downloader.py</code><p>The heart of the pipeline. Defines the WorkerPool supervisor, four persistent worker coroutines, yt-dlp and ffmpeg wrappers, the retry loop, and the Notifier bridge used by the Telegram module for per-URL failure alerts.</p></li>
+            <li><code>telegram_bot.py</code><p>aiogram 3 dispatcher. Handles /start and any text message, extracts and deduplicates URLs, enqueues each as a DB row plus queue item, aggregates the chat's pending task IDs, and sends the final summary only once all of them reach a terminal state.</p></li>
+            <li><code>web.py</code><p>FastAPI application with a single HTML route, REST endpoints for settings, queue, history, and logs, and the /ws WebSocket that pushes a full dashboard snapshot every second. Bound to 127.0.0.1 only.</p></li>
+            <li><code>templates/ · static/</code><p>Vanilla SPA. No build step; the six views toggle via CSS classes, the WebSocket reconnects automatically, and settings changes route through a confirmation modal before hitting POST /api/settings.</p></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section" id="tech-stack">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">07 / Tech Stack</span>
+        <h2>Small, focused dependencies</h2>
+        <p class="section-sub">No frontend framework, no cloud services, no build step — just Python, ffmpeg, and a browser.</p>
+      </div>
+
+      <div class="panel reveal">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><img src="https://img.shields.io/badge/Python-3.12-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=python&amp;logoColor=FF6B2B" alt="Python 3.12" loading="lazy"></td><td>Async orchestration via asyncio.gather.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/aiogram-3-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=telegram&amp;logoColor=FF6B2B" alt="aiogram 3" loading="lazy"></td><td>Telegram dispatcher, filters, message handlers.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/FastAPI-0.115-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=fastapi&amp;logoColor=FF6B2B" alt="FastAPI" loading="lazy"></td><td>REST endpoints and WebSocket surface.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/Uvicorn-0.30-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=gunicorn&amp;logoColor=FF6B2B" alt="Uvicorn" loading="lazy"></td><td>ASGI server.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/yt--dlp-latest-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=youtube&amp;logoColor=FF6B2B" alt="yt-dlp" loading="lazy"></td><td>YouTube extraction and format selection.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/yt--dlp--ejs-enabled-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=deno&amp;logoColor=FF6B2B" alt="yt-dlp-ejs" loading="lazy"></td><td>Solves YouTube signature challenges.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/Deno-runtime-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=deno&amp;logoColor=FF6B2B" alt="Deno" loading="lazy"></td><td>JavaScript runtime backing yt-dlp-ejs.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/FFmpeg-required-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=ffmpeg&amp;logoColor=FF6B2B" alt="FFmpeg" loading="lazy"></td><td>MP3 encoding, cover and metadata embedding.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/SQLite-3-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=sqlite&amp;logoColor=FF6B2B" alt="SQLite" loading="lazy"></td><td>Queue, history, settings, and daily stats.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/aiosqlite-0.20-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=sqlite&amp;logoColor=FF6B2B" alt="aiosqlite" loading="lazy"></td><td>Async SQLite driver.</td></tr>
+              <tr><td><img src="https://img.shields.io/badge/HTML%20%2F%20CSS%20%2F%20JS-vanilla-000000?style=flat-square&amp;labelColor=1A1A1A&amp;logo=javascript&amp;logoColor=FF6B2B" alt="HTML, CSS, JavaScript" loading="lazy"></td><td>Vanilla SPA dashboard, no build step.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="note reveal">Built on the shoulders of aiogram, FastAPI, Uvicorn, yt-dlp, yt-dlp-ejs, FFmpeg, Deno, SQLite, and aiosqlite. Header badges and the typing animation are powered by Shields.io and readme-typing-svg.</p>
+    </div>
+  </section>
+
+  <section class="section" id="structure">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">08 / Project Structure</span>
+        <h2>One file, one concern</h2>
+        <p class="section-sub">The module layout is intentional. Do not fold logic across boundaries — each file owns a single responsibility.</p>
+      </div>
+
+      <div class="tree-block reveal">
+<pre><code><span class="file">qazan-mp3-downloader/</span>
+├── <span class="file">main.py</span>                 # Single entry point: asyncio.gather(bot, web, workers)
+├── <span class="file">config.py</span>               # Constants, paths, DEFAULT_SETTINGS, logging + human() helper
+├── <span class="file">db.py</span>                   # aiosqlite layer: tasks, settings, stats_daily
+├── <span class="file">downloader.py</span>           # yt-dlp + ffmpeg pipeline, 4 async workers, retry logic
+├── <span class="file">telegram_bot.py</span>         # aiogram 3 handlers, URL extraction, batch stats
+├── <span class="file">web.py</span>                  # FastAPI app, REST endpoints, /ws WebSocket
+├── <span class="file">requirements.txt</span>        # Python dependencies
+├── <span class="file">start.bat</span>               # Windows one-click launcher
+├── <span class="file">cookies.txt</span>             # (optional) YouTube authentication cookies
+├── <span class="file">art.png</span>                 # (user-provided) cover art embedded in every MP3
+├── <span class="file">system.log</span>              # (runtime) INFO+ log file
+├── <span class="file">qazan.db</span>                # (runtime) SQLite database
+├── <span class="file">templates/</span>
+│   └── <span class="file">index.html</span>          # Single-page app shell
+├── <span class="file">static/</span>
+│   ├── <span class="file">style.css</span>           # Dark Minimalist Developer Dashboard styles
+│   └── <span class="file">app.js</span>              # WebSocket client + SPA view logic
+└── <span class="file">screenshots/</span>
+    ├── <span class="file">website.png</span>         # Dashboard screenshot
+    └── <span class="file">terminal.png</span>        # Terminal screenshot</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reliability">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">09 / Reliability</span>
+        <h2>Failures stay contained</h2>
+        <p class="section-sub">A single bad URL never stops a worker, never stops the queue, and never stops the process.</p>
+      </div>
+
+      <ul class="check-list reveal">
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>
+          <div><strong>Per-URL retry.</strong> Every task gets up to 3 attempts with a 5-second delay between each. The retry loop is scoped to a single task, never to the worker or the queue.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+          <div><strong>Immediate failure notifications.</strong> The moment a URL exhausts its retries, the originating Telegram chat receives a standalone message with the URL and a short error.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></span>
+          <div><strong>Queue isolation.</strong> A worker never propagates an exception to the pool. Every task runs inside its own try / except / finally block, and queue.task_done() fires unconditionally.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></span>
+          <div><strong>Skip-existing deduplication.</strong> A download is pre-checked against the filesystem and against tasks WHERE status = 'done'. Matching titles are marked skipped without consuming bandwidth.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10.29 3.86-8.2 14.14A2 2 0 0 0 3.82 21h16.36a2 2 0 0 0 1.73-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <div><strong>Missing assets are non-fatal.</strong> No art.png means a warning and an audio-only MP3. No cookies.txt means the pipeline proceeds without cookies. Neither condition halts the pipeline.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>
+          <div><strong>Crash-tolerant restart.</strong> On boot, any task left in downloading or processing is reset to pending and re-enqueued, so a hard power-off never loses work.</div>
+        </li>
+        <li>
+          <span class="li-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <div><strong>Bounded logging surface.</strong> Tracebacks are written exclusively to system.log. Stdout receives only human-readable Kazakh lines, keeping the terminal and dashboard clean.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="contributing">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">10 / Contributing</span>
+        <h2>Pull requests are welcome</h2>
+      </div>
+      <div class="cta-panel reveal">
+        <p>Open an issue first for anything that changes behaviour. Keep the module boundaries from the architecture section, match the existing async style, and update the README alongside any change to settings or the dashboard. By submitting a pull request you agree your contribution is licensed under OSL-3.0.</p>
+        <a class="btn btn-primary" href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER/issues" target="_blank" rel="noopener">Open an Issue</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="license">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-kicker">11 / License</span>
+        <h2>Open Software License 3.0</h2>
+      </div>
+
+      <div class="license-card reveal">
+        <img src="https://img.shields.io/badge/License-OSL--3.0-FF6B2B?style=flat-square&amp;labelColor=1A1A1A" alt="License OSL-3.0">
+        <h3>Open Software License 3.0 (OSL-3.0)</h3>
+        <p>Licensed under the Open Software License 3.0. The full text is available in the repository.</p>
+        <p class="license-copy">Copyright (c) 2026 Qarabai Ermahan</p>
+        <p class="license-note">Any derivative work must retain the original copyright notice and a prominent Attribution Notice indicating that modifications were made, as required by OSL-3.0 Section 6.</p>
+        <a class="btn btn-secondary btn-sm" href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER/blob/main/LICENSE" target="_blank" rel="noopener">Read the LICENSE</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span class="brand-mark" aria-hidden="true">Q</span> QAZAN MP3 MUSIC DOWNLOADER</div>
+      <p>Copyright (c) 2026 Qarabai Ermahan · OSL-3.0</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#features">Features</a>
+      <a href="#installation">Install</a>
+      <a href="#usage">Usage</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#license">License</a>
+      <a href="https://github.com/QarabaiErooom/QAZAN-MP3-MUSIC-DOWNLOADER" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <div class="footer-social">
+      <a href="https://github.com/QarabaiErooom" target="_blank" rel="noopener" aria-label="GitHub profile"><img src="https://img.shields.io/badge/GitHub-QarabaiErooom-0A0A0A?style=for-the-badge&amp;logo=github&amp;logoColor=FF6B2B&amp;labelColor=1A1A1A" alt="GitHub" loading="lazy"></a>
+      <a href="https://t.me/QarabaiErmahan" target="_blank" rel="noopener" aria-label="Telegram profile"><img src="https://img.shields.io/badge/Telegram-@QarabaiErmahan-0A0A0A?style=for-the-badge&amp;logo=telegram&amp;logoColor=FF6B2B&amp;labelColor=1A1A1A" alt="Telegram" loading="lazy"></a>
+      <a href="mailto:eromaqarabai@gmail.com" aria-label="Send email"><img src="https://img.shields.io/badge/Email-eromaqarabai%40gmail.com-0A0A0A?style=for-the-badge&amp;logo=gmail&amp;logoColor=FF6B2B&amp;labelColor=1A1A1A" alt="Email" loading="lazy"></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Built with asyncio, yt-dlp, and ffmpeg — and not much else.</span>
+    <span>127.0.0.1 only · no telemetry</span>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+</body>
+</html>
