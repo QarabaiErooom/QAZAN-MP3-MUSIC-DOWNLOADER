@@ -1,0 +1,189 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QAZAN — MP3 Downloader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Q</div>
+    <div class="brand-text">
+      <div class="brand-name">QAZAN</div>
+      <div class="brand-sub mono">MP3 DOWNLOADER</div>
+    </div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <button class="nav-item active" data-view="dashboard"><span class="nav-index mono">01</span>Dashboard</button>
+    <button class="nav-item" data-view="queue"><span class="nav-index mono">02</span>Кезек<span class="nav-count mono" id="nav-queue-count">0</span></button>
+    <button class="nav-item" data-view="history"><span class="nav-index mono">03</span>Тарих</button>
+    <button class="nav-item" data-view="settings"><span class="nav-index mono">04</span>Параметрлер</button>
+    <button class="nav-item" data-view="terminal"><span class="nav-index mono">05</span>Терминал</button>
+    <button class="nav-item" data-view="logs"><span class="nav-index mono">06</span>Логтар</button>
+  </nav>
+
+  <div class="sidebar-foot">
+    <div class="conn" id="conn"><span class="conn-dot"></span><span id="conn-label" class="mono">OFFLINE</span></div>
+    <div class="mono muted tiny">127.0.0.1:8000 · v1.0</div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 id="page-title">Dashboard</h1>
+      <span class="slash mono">/</span>
+      <span class="muted mono tiny" id="page-sub">overview</span>
+    </div>
+    <div class="topbar-right">
+      <div class="chip mono"><span class="chip-dot accent"></span><span id="chip-active">0</span> active</div>
+      <div class="chip mono"><span class="chip-dot"></span><span id="chip-pending">0</span> queue</div>
+      <div class="clock mono" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section class="view active" id="view-dashboard">
+      <div class="cards">
+        <div class="card">
+          <div class="card-head"><span class="card-label">Барлығы</span><span class="card-tag mono">TODAY</span></div>
+          <div class="card-value mono" id="stat-total">0</div>
+          <div class="card-sub mono" id="stat-bytes">0 B</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-label">Кезекте</span><span class="card-tag mono">PENDING</span></div>
+          <div class="card-value mono" id="stat-queue">0</div>
+          <div class="card-sub mono">күтуде</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-label">Белсенді</span><span class="card-tag mono">WORKERS</span></div>
+          <div class="card-value mono"><span id="stat-active">0</span><span class="card-value-dim" id="stat-workers">/4</span></div>
+          <div class="card-sub mono">жүктелуде</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-label">Сәтсіз</span><span class="card-tag mono">FAILED</span></div>
+          <div class="card-value mono accent-text" id="stat-failed">0</div>
+          <div class="card-sub mono">бүгін</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-label">Жылдамдық</span><span class="card-tag mono">AVG</span></div>
+          <div class="card-value mono" id="stat-speed">0 B/s</div>
+          <div class="card-sub mono">орташа</div>
+        </div>
+      </div>
+
+      <div class="workers-strip" id="workers-strip"></div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Соңғы тапсырмалар</h2>
+            <span class="muted mono tiny" id="dash-ts">—</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>ID</th><th>Атауы</th><th>Күйі</th><th>Worker</th><th>Уақыт</th></tr></thead>
+              <tbody id="dash-tasks"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Апта көлемі</h2>
+            <span class="muted mono tiny">7 DAYS</span>
+          </div>
+          <div class="bars" id="dash-bars"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-queue">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Белсенді кезек</h2>
+          <span class="muted mono tiny" id="queue-count">0</span>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>ID</th><th>Сілтеме</th><th>Күйі</th><th>Worker</th><th>Әрекет</th><th>Қосылған</th></tr></thead>
+            <tbody id="queue-tasks"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-history">
+      <div class="filters" id="history-filters">
+        <button class="filter active" data-filter="all">Барлығы</button>
+        <button class="filter" data-filter="done">Дайын</button>
+        <button class="filter" data-filter="failed">Сәтсіз</button>
+        <button class="filter" data-filter="skipped">Өткізілді</button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>ID</th><th>Атауы</th><th>Күйі</th><th>Worker</th><th>Өлшемі</th><th>Аяқталды</th></tr></thead>
+            <tbody id="history-tasks"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-settings">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Жүйе параметрлері</h2>
+          <span class="muted mono tiny">DB · settings</span>
+        </div>
+        <div class="settings-list" id="settings-list"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-terminal">
+      <div class="panel terminal-panel">
+        <div class="panel-head">
+          <h2>Тірі терминал</h2>
+          <span class="muted mono tiny">stdout · kk</span>
+        </div>
+        <div class="terminal" id="terminal"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-logs">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Жүйелік лог</h2>
+          <button class="btn ghost small" id="logs-refresh">Жаңарту</button>
+        </div>
+        <div class="loglist" id="loglist"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-backdrop hidden" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Растау</h3>
+    <p id="modal-text" class="muted"></p>
+    <div class="modal-actions">
+      <button class="btn ghost" id="modal-cancel">Болдырмау</button>
+      <button class="btn primary" id="modal-confirm">Растау</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
